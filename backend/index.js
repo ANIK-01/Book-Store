@@ -24,18 +24,31 @@ db.connect()
     .then(() => console.log('Connected to the PostgreSQL database.'))
     .catch((err) => console.error('Database connection failed:', err.stack));
 
-// Define routes
+
+
 app.get('/', (req, res) => {
-    res.send('Backend is running with PostgreSQL!');
+    res.json({ message: 'Connected with PostgreSQL backend!' });
+});
+// Define routes
+app.get('/books', (req, res) => {
+    console.log('Received request on /books');
+    db.query(`SELECT * FROM book`, (err, data) => {
+        if (!err) {
+            console.log(data.rowCount);
+            return res.json(data);
+        } else {
+            console.error('Database query error:', err.message);
+            return res.status(500).json({ error: err.message });
+        }
+    });
 });
 
-app.get('/api/check', (req, res) => {
-    res.json({ message: 'Frontend connected with PostgreSQL backend!' });
-});
+
+
 
 
 // Start the server
-const PORT = process.env.PORT || 5432;
+const PORT = process.env.PORT || 5444;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
