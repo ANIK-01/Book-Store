@@ -9,6 +9,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         setMessage(data.message); // Update with backend response
+        console.log("anik:",data.message);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
