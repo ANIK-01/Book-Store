@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import Navbar from './components/navbar';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -20,8 +21,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Frontend-Backend Connection Test</h1>
-        <p>{message || 'Connecting to backend...'}</p>
+        {/* <h1 className='bg-gray-600'>Frontend-Backend Connection Test</h1>
+        <p>{message || 'Connecting to backend...'}</p> */}
+        <Navbar/>
       </header>
     </div>
   );
