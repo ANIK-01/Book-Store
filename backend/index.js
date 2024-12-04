@@ -28,8 +28,13 @@ db.connect((err) => {
 app.get('/', (req, res) => {
     res.send('Backend is running!');
 });
+app.get('/api/check', (req, res) => {
+    res.json({ message: 'Frontend connected with beckend!' });
+  });
+  
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3307;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
