@@ -1,29 +1,34 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import { fetchbookData } from './api';
 import Navbar from './components/navbar';
+import BookCard from './components/bookcard';
+import './App.css';
 
 function App() {
-  const [message, setMessage] = useState('');
+  const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch('/api/check') // Proxy will handle routing to the backend
-      .then((response) => response.json())
-      .then((data) => {
-        setMessage(data.message); // Update with backend response
-        console.log("anik:",data.message);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setMessage('Failed to connect to backend.');
-      });
+    const fetchData = async () => {
+      const data = await fetchbookData();
+      if (data && data.rows) {
+        setBooks(data.rows); // Update state with book data
+      }
+    };
+    fetchData();
   }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        {/* <h1 className='bg-gray-600'>Frontend-Backend Connection Test</h1>
-        <p>{message || 'Connecting to backend...'}</p> */}
-        <Navbar/>
+        <Navbar />
+        <h1 className="bg-gray-600">Book List</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {books.length > 0 ? (
+            books.map((book, index) => <BookCard key={index} book={book} />)
+          ) : (
+            <p>Loading books...</p>
+          )}
+        </div>
       </header>
     </div>
   );
